@@ -9,7 +9,7 @@ import java.util.Date;
 @Named(value = "date")
 @ViewScoped
 public class DateBean implements Serializable {
-    private SimpleDateFormat simpleDateFormat;
+    private final SimpleDateFormat simpleDateFormat;
     private Date date;
 
     public DateBean() {
