@@ -7,8 +7,18 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
+/**
+ * Validates radius
+ */
 @FacesValidator("rDataValidator")
 public class rDataValidator implements Validator {
+    /**
+     * Validate data format passed into controller
+     * @param context context
+     * @param component ui component
+     * @param value radius
+     * @throws ValidatorException if data format is incorrect
+     */
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         FacesMessage message = new FacesMessage();

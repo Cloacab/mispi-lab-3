@@ -2,6 +2,9 @@ package se.ifmo.web.model;
 
 import javax.persistence.*;
 
+/**
+ * Class for point with properties
+ */
 @Entity
 @Table(name = "points")
 public class Point {

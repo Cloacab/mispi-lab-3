@@ -162,6 +162,8 @@
                  charset="ISO-8859-1"
                  linksource="false"
                  breakiterator="false"/>
+
+<!--        <checksum algorithm="md5" file="${dist}/"-->
     </target>
 
     <target name="report" depends="test" description="Reports test result to xml file">

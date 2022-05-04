@@ -7,8 +7,19 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
+/**
+ * Validates y coordinate
+ */
 @FacesValidator("yDataValidator")
 public class yDataValidator implements Validator {
+
+    /**
+     * Validates something
+     * @param context context
+     * @param component component
+     * @param value y coordinate
+     * @throws ValidatorException if y coordinate is in the wrong format
+     */
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         FacesMessage message = new FacesMessage();

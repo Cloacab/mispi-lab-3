@@ -6,6 +6,9 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 
+/**
+ * Converts string to boolean
+ */
 @FacesConverter("booleanConverter")
 public class BooleanConverter implements Converter {
     @Override
