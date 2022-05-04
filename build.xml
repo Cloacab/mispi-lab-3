@@ -1,7 +1,4 @@
-<project name="MyProject" default="build" basedir="."
-         xmlns:ivy="antlib:org.apache.ivy.ant"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="antlib:org.apache.ivy.ant "
->
+<project name="MyProject" default="build" basedir=".">
     <description>
         simple example build file
     </description>
@@ -128,38 +125,48 @@
         <copy file="${maven.repo.local}/org/primefaces/primefaces/7.0/primefaces-7.0.jar"
               todir="${maven.build.dir}/${maven.build.finalName}/WEB-INF/lib"/>
 
-<!--        <war destfile="${maven.build.dir}/${maven.build.finalName}.war"-->
-<!--             compress="true"-->
-<!--             webxml="src/main/webapp/WEB-INF/web.xml">-->
-<!--            <lib dir="${maven.build.dir}/${maven.build.finalName}/WEB-INF/lib"/>-->
-<!--            <classes dir="${maven.build.outputDir}"/>-->
-<!--            <fileset dir="src/main/webapp"-->
-<!--                     excludes="WEB-INF/web.xml"/>-->
-<!--            <manifest>-->
-<!--                <attribute name="Version" value="${version}"/>-->
-<!--                <attribute name="Main-Class" value="${main.class}"/>-->
-<!--            </manifest>-->
-<!--        </war>-->
-
         <mkdir dir="${dist}/lib" />
-
-<!--        <manifest file="${build}/META-INF/MANIFEST.MF">-->
-<!--            <attribute name="Class-Path" value="${jar-file-name}"/>-->
-<!--            <attribute name="Version" value="${version}"/>-->
-<!--            <attribute name="Main-Class" value="${main.class}"/>-->
-<!--        </manifest>-->
 
         <jar destfile="${dist}/lib/myapp.jar"
              basedir="${build}/classes">
             <manifest>
-<!--                    file="${build}/META-INF/MANIFEST.MF">-->
-                <!--            <attribute name="Class-Path" value="${jar-file-name}"/>-->
                 <attribute name="Version" value="${version}"/>
                 <attribute name="Main-Class" value="${main.class}"/>
             </manifest>
-<!--            <fileset dir="${build}/classes"-->
-<!--                      includes="**/*.class"/>-->
         </jar>
+
+    </target>
+
+    <target name="test" depends="build" description="Run tests">
+
+    </target>
+
+    <target name="doc" description="Makes documentation for classes in javadoc">
+        <javadoc sourcepath="${maven.build.srcDir.0}"
+                 packagenames="*"
+                 destdir="${maven.reporting.outputDirectory}/apidocs"
+                 access="private"
+                 old="false"
+                 verbose="true"
+                 version="true"
+                 use="true"
+                 author="true"
+                 splitindex="false"
+                 nodeprecated="false"
+                 nodeprecatedlist="false"
+                 notree="false"
+                 noindex="false"
+                 nohelp="false"
+                 nonavbar="false"
+                 serialwarn="false"
+                 charset="ISO-8859-1"
+                 linksource="true"
+                 breakiterator="false"/>
+
+<!--        <checksum algorithm="md5" file="${dist}/"-->
+    </target>
+
+    <target name="report" depends="test" description="Reports test result to xml file">
 
     </target>
 
