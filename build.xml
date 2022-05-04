@@ -142,7 +142,28 @@
     </target>
 
     <target name="doc" description="Makes documentation for classes in javadoc">
+        <javadoc sourcepath="${maven.build.srcDir.0}"
+                 packagenames="*"
+                 destdir="${maven.reporting.outputDirectory}/apidocs"
+                 access="private"
+                 old="false"
+                 verbose="true"
+                 version="true"
+                 use="true"
+                 author="true"
+                 splitindex="false"
+                 nodeprecated="false"
+                 nodeprecatedlist="false"
+                 notree="false"
+                 noindex="false"
+                 nohelp="false"
+                 nonavbar="false"
+                 serialwarn="false"
+                 charset="ISO-8859-1"
+                 linksource="true"
+                 breakiterator="false"/>
 
+<!--        <checksum algorithm="md5" file="${dist}/"-->
     </target>
 
     <target name="report" depends="test" description="Reports test result to xml file">
