@@ -145,9 +145,9 @@
         <javadoc sourcepath="${maven.build.srcDir.0}"
                  packagenames="*"
                  destdir="${maven.reporting.outputDirectory}/apidocs"
-                 access="protected"
+                 access="private"
                  old="false"
-                 verbose="false"
+                 verbose="true"
                  version="true"
                  use="true"
                  author="true"
@@ -160,7 +160,7 @@
                  nonavbar="false"
                  serialwarn="false"
                  charset="ISO-8859-1"
-                 linksource="false"
+                 linksource="true"
                  breakiterator="false"/>
 
 <!--        <checksum algorithm="md5" file="${dist}/"-->
