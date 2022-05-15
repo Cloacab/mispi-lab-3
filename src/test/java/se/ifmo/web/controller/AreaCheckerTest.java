@@ -4,21 +4,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.lang.reflect.Proxy;
-import java.util.Arrays;
 
 public class AreaCheckerTest {
 
-    Class testingClass = AreaChecker.class;
-
-    AreaChecker mockedCircle = getMockAreaChecker("Circle");
-
-    AreaChecker mockedTriangle = getMockAreaChecker("Triangle");
-
-    AreaChecker mockedRectangle = getMockAreaChecker("Rectangle");
-    double xCircle = 1;
-
-    double yCircle = -1;
-    double radiusCircle = 3;
     @Test
     public void shouldCheckCorrectPointInArea() {
         // given
@@ -26,21 +14,29 @@ public class AreaCheckerTest {
 
 
         System.out.println("Testing correct point for circle...");
-        Assert.assertTrue(AreaChecker.checkAreas(xCircle, yCircle, radiusCircle));
+        Assert.assertTrue(AreaChecker.checkAreas(1, -1, 3));
     }
 
     @Test
     public void shouldCheckWrongPointInArea() {
         System.out.println("Testing wrong point for circle...");
+        Assert.assertFalse(AreaChecker.checkAreas(-2, -4, 3));
     }
 
     @Test
-    public void shouldMockAllFigures() {
-        AreaChecker circle = getMockAreaChecker("Circle");
-        System.out.println(Arrays.toString(circle.getClass().getMethods()));
+    public void shouldCheckCorrectPointForTriangle() {
+        System.out.println("Testing correct point for triangle...");
+        Assert.assertTrue(AreaChecker.checkAreas(-1, -4, 5));
+    }
+
+    @Test
+    public void shouldCheckCorrectPointForRectangle() {
+        System.out.println("Testing correct point for rectangle...");
+        Assert.assertTrue(AreaChecker.checkAreas(-1, -2, 5));
     }
 
     private AreaChecker getMockAreaChecker(String figure) {
+        Class testingClass = AreaChecker.class;
         return (AreaChecker) Proxy.newProxyInstance(
                 testingClass.getClassLoader(),
                 testingClass.getInterfaces(),
