@@ -215,6 +215,48 @@
     </target>
 
     <target name="report" depends="test" description="Reports test result to xml file">
+        <mkdir dir="${svn.dir.remote}"/>
+        <mkdir dir="${svn.dir.local}"/>
+
+<!--        <exec executable="cd">-->
+<!--            <arg value="${svn.dir.remote}"/>-->
+<!--        </exec>-->
+        <exec executable="${svnadmin.exec.path}">
+            <arg value="create"/>
+            <arg value="${svn.dir.remote}/repository"/>
+<!--            <arg value="${svn.dir}/tmp.txt"/>-->
+        </exec>
+
+        <mkdir dir="${svn.dir.local}/repository"/>
+
+
+        <exec executable="${svn.exec.path}">
+            <arg value="mkdir"/>
+            <arg value="'${svn.dir.remote}/ ${svn.dir.local.master}'"/>
+        </exec>
+
+
+        <exec executable="${svn.exec.path}">
+            <arg value="co"/>
+            <arg value="${svn.dir.remote}/repository ${svn.dir.local.master}"/>
+        </exec>
+
+
+        <exec executable="${svn.exec.path}">
+            <arg value="up"/>
+            <arg value="${svn.dir.local.master}"/>
+        </exec>
+
+        <copy todir="${maven.test.reports}">
+            <fileset dir="${svn.dir.local.master}"/>
+        </copy>
+
+<!--        <exec executable="${svn.exec.path}">-->
+<!--            <arg value=""/>-->
+<!--            <arg value=""/>-->
+<!--        </exec>-->
+
+
 
     </target>
 

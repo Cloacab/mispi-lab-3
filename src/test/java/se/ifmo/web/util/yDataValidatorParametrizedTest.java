@@ -2,11 +2,13 @@ package se.ifmo.web.util;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
 import java.util.List;
 
+@RunWith(Parameterized.class)
 public class yDataValidatorParametrizedTest {
     private yDataValidator validator;
     private final String value;
@@ -17,7 +19,7 @@ public class yDataValidatorParametrizedTest {
 
     @Parameterized.Parameters
     public static List<String> arguments() {
-        return Arrays.asList("1", "2", "3", "2.5", "-4");
+        return Arrays.asList("1", "2", "-1", "2.5", "-4");
     }
 
     @Before
