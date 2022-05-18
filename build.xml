@@ -235,52 +235,58 @@
     <target name="report" depends="test" description="Reports test result to xml file">
         <mkdir dir="${svn.dir.remote}"/>
         <mkdir dir="${svn.dir.local}"/>
-        <mkdir dir="${svn.dir.local.master}"/>
 
-<!--        <exec executable="${svnadmin.exec.path}">-->
-<!--            <arg value="create"/>-->
-<!--            <arg value="${svn.dir.remote}/repository"/>-->
-<!--        </exec>-->
-
-<!--        <svnAdded>-->
-<!--            <add dir="${svn.dir.local.master}"/>-->
-<!--        </svnAdded>-->
-
-        <!--        <exec executable="cd">-->
-        <!--            <arg value="${svn.dir.remote}"/>-->
-        <!--        </exec>-->
-
-<!--        <mkdir dir="${svn.dir.local}/repository"/>-->
-
+        <exec executable="${svnadmin.exec.path}">
+            <arg value="create"/>
+            <arg value="${svn.dir.remote}/repository"/>
+        </exec>
 
         <exec executable="${svn.exec.path}">
             <arg value="mkdir"/>
-<!--            <arg value="&#45;&#45;parents"/>-->
+            <arg value="-m 'lol kek'"/>
             <arg value="file:///${svn.dir.remote.full}/trunk"/>
         </exec>
 
 
         <exec executable="${svn.exec.path}">
             <arg value="co"/>
-            <arg value="file:///${svn.dir.remote.full} ${svn.dir.local}/repository/"/>
+            <arg value="file:///${svn.dir.remote.full}"/>
+            <arg value="${svn.dir.local}/repository"/>
         </exec>
 
 
+<!--        <exec executable="${svn.exec.path}">-->
+<!--            <arg value="up"/>-->
+<!--            <arg value="${svn.dir.local.master}"/>-->
+<!--        </exec>-->
+
+        <copy todir="${svn.dir.local.master}/">
+            <fileset dir="${maven.test.reports}"/>
+        </copy>
+
+        <exec executable="cd">
+            <arg value="${svn.dir.local.master}"/>
+            <arg value="&amp;&amp;"/>
+            <arg value="${svn.exec.path}"/>
+            <arg value="add"/>
+            <arg value="*"/>
+        </exec>
+
+<!--        <exec executable="${svn.exec.path}">-->
+<!--            <arg value="add"/>-->
+<!--            <arg value="*"/>-->
+<!--            <arg value="${svn.dir.local.master}"/>-->
+<!--        </exec>-->
+
         <exec executable="${svn.exec.path}">
-            <arg value="up"/>
+            <arg value="commit"/>
+            <arg value="-m 'prekol_${rev.id}'"/>
             <arg value="${svn.dir.local.master}"/>
         </exec>
 
-        <copy todir="${maven.test.reports}">
-            <fileset dir="${svn.dir.local.master}/"/>
-        </copy>
-
-<!--        <exec executable="${svn.exec.path}">-->
-<!--            <arg value=""/>-->
-<!--            <arg value=""/>-->
-<!--        </exec>-->
-
-
+        <propertyfile file="build.properties">
+            <entry key="rev.id" type="int" operation="+" value="1"/>
+        </propertyfile>
 
     </target>
 
