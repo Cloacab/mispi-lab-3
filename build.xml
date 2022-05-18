@@ -5,6 +5,8 @@
     <!-- set global properties for this build -->
     <property file="build.properties"/>
 
+<!--    <typedef resource="org/tigris/subversion/svnant/svnantlib.xml" classpath="svnant-1.3.jar" />-->
+
     <property name="user.home" location="~/"/>
     <property name="src" location="src/main/java/se/ifmo/web"/>
     <property name="build" location="build"/>
@@ -189,56 +191,78 @@
         </junit>
     </target>
 
-    <target name="doc" description="Makes documentation for classes in javadoc">
-        <javadoc sourcepath="${maven.build.srcDir.0}"
-                 packagenames="*"
-                 destdir="${maven.reporting.outputDirectory}/apidocs"
-                 access="private"
-                 old="false"
-                 verbose="true"
-                 version="true"
-                 use="true"
-                 author="true"
-                 splitindex="false"
-                 nodeprecated="false"
-                 nodeprecatedlist="false"
-                 notree="false"
-                 noindex="false"
-                 nohelp="false"
-                 nonavbar="false"
-                 serialwarn="false"
-                 charset="ISO-8859-1"
-                 linksource="true"
-                 breakiterator="false"/>
+    <target name="doc" depends="compile" description="Makes documentation for classes in javadoc">
+        <property name="app.name"    value="MyProject" />
+        <property name="app.version" value="1.21" />
+        <property name="app.author"  value="AuthorName" />
+        <property name="app.year"    value="2015" />
+        <property name="dir.package" value="${maven.build.resourceDir.1}" />
+        <property name="dir.src"     value="./src/main/java/se/ifmo/web/" />
+        <property name="dir.doc"     value="./doc" />
 
-<!--        <checksum algorithm="md5" file="${dist}/"-->
+        <echo message="Create MyProject.doc." />
+        <mkdir dir="${dir.doc}" />
+
+        <javadoc sourcepath="./src/main/java"
+                 destdir="${dir.doc}"
+                 use="true"
+                 private="true"
+                 author="${app.author}"
+                 version="${app.version}"
+                 windowtitle="${app.name} API"
+                 doctitle="${app.name}" />
+        <fileset dir="${dir.src}" defaultexcludes="yes">
+            <include name="src/main/java/se/ifmo/web/**"/>
+        </fileset>
+        <checksum algorithm="md5" fileext=".md5" todir="md5">
+            <fileset dir="${dir.src}" />
+        </checksum>
+        <checksum algorithm="sha-1" fileext=".sha1" todir="sha">
+            <fileset dir="${dir.src}" />
+        </checksum>
+        <jar jarfile="myTest.jar" basedir="${build}/classes">
+            <manifest>
+                <attribute name="Version" value="${version}"/>
+                <attribute name="Main-Class" value="${main.class}"/>
+                <attribute name="MD5" value="md5"/>
+                <attribute name="SHA" value="sha"/>
+            </manifest>
+            <fileset dir="${dir.doc}"/>
+        </jar>
     </target>
+
 
     <target name="report" depends="test" description="Reports test result to xml file">
         <mkdir dir="${svn.dir.remote}"/>
         <mkdir dir="${svn.dir.local}"/>
+        <mkdir dir="${svn.dir.local.master}"/>
 
-<!--        <exec executable="cd">-->
-<!--            <arg value="${svn.dir.remote}"/>-->
+<!--        <exec executable="${svnadmin.exec.path}">-->
+<!--            <arg value="create"/>-->
+<!--            <arg value="${svn.dir.remote}/repository"/>-->
 <!--        </exec>-->
-        <exec executable="${svnadmin.exec.path}">
-            <arg value="create"/>
-            <arg value="${svn.dir.remote}/repository"/>
-<!--            <arg value="${svn.dir}/tmp.txt"/>-->
-        </exec>
 
-        <mkdir dir="${svn.dir.local}/repository"/>
+<!--        <svnAdded>-->
+<!--            <add dir="${svn.dir.local.master}"/>-->
+<!--        </svnAdded>-->
+
+        <!--        <exec executable="cd">-->
+        <!--            <arg value="${svn.dir.remote}"/>-->
+        <!--        </exec>-->
+
+<!--        <mkdir dir="${svn.dir.local}/repository"/>-->
 
 
         <exec executable="${svn.exec.path}">
             <arg value="mkdir"/>
-            <arg value="'${svn.dir.remote}/ ${svn.dir.local.master}'"/>
+<!--            <arg value="&#45;&#45;parents"/>-->
+            <arg value="file:///${svn.dir.remote.full}/trunk"/>
         </exec>
 
 
         <exec executable="${svn.exec.path}">
             <arg value="co"/>
-            <arg value="${svn.dir.remote}/repository ${svn.dir.local.master}"/>
+            <arg value="file:///${svn.dir.remote.full} ${svn.dir.local}/repository/"/>
         </exec>
 
 
@@ -248,7 +272,7 @@
         </exec>
 
         <copy todir="${maven.test.reports}">
-            <fileset dir="${svn.dir.local.master}"/>
+            <fileset dir="${svn.dir.local.master}/"/>
         </copy>
 
 <!--        <exec executable="${svn.exec.path}">-->
