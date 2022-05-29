@@ -53,22 +53,6 @@
         <pathelement location="${maven.repo.local}/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"/>
     </path>
 
-<!--    <available classname="org.apache.ivy.Main" property="ivy.installed"/>-->
-
-<!--    <target name="install-ivy" description="Install ivy" unless="ivy.installed">-->
-<!--        <mkdir dir="${user.home}/.ant/lib"/>-->
-<!--        <get dest="${user.home}/.ant/lib/ivy.jar" src="http://search.maven.org/remotecontent?filepath=org/apache/ivy/ivy/2.3.0/ivy-2.3.0.jar"/>-->
-<!--        <fail message="Ivy has been installed. Run the build again"/>-->
-<!--    </target>-->
-
-<!--    <target name="resolve" depends="install-ivy" description="Use ivy to resolve classpaths">-->
-<!--        <ivy:cachepath pathid="compile.path">-->
-<!--            <dependency org="org.hibernate" name="hibernate" rev="3.2.7.ga" conf="default">-->
-<!--                <exclude org="javax.transaction"/>-->
-<!--            </dependency>-->
-<!--        </ivy:cachepath>-->
-<!--    </target>-->
-
     <target name="init">
         <!-- Create the time stamp -->
         <tstamp/>
@@ -179,8 +163,6 @@
                 <path refid="build.test.classpath"/>
                 <pathelement location="${maven.build.outputDir}"/>
                 <pathelement location="${maven.build.testOutputDir}"/>
-<!--                <pathelement location="${maven.build.dir}/${maven.build.finalName}/WEB-INF/lib/junit-4.13.2.jar"/>-->
-<!--                <pathelement location="${maven.build.dir}/${maven.build.finalName}/WEB-INF/lib/hamcrest-core-1.3.jar"/>-->
             </classpath>
             <sysproperty key="basedir" value="."/>
             <formatter type="xml"/>
@@ -254,12 +236,6 @@
             <arg value="${svn.dir.local}/repository"/>
         </exec>
 
-
-<!--        <exec executable="${svn.exec.path}">-->
-<!--            <arg value="up"/>-->
-<!--            <arg value="${svn.dir.local.master}"/>-->
-<!--        </exec>-->
-
         <copy todir="${svn.dir.local.master}/">
             <fileset dir="${maven.test.reports}"/>
         </copy>
@@ -271,12 +247,6 @@
             <arg value="add"/>
             <arg value="*"/>
         </exec>
-
-<!--        <exec executable="${svn.exec.path}">-->
-<!--            <arg value="add"/>-->
-<!--            <arg value="*"/>-->
-<!--            <arg value="${svn.dir.local.master}"/>-->
-<!--        </exec>-->
 
         <exec executable="${svn.exec.path}">
             <arg value="commit"/>
@@ -293,7 +263,7 @@
     <target name="clean"
             description="clean up">
         <!-- Delete the ${build} and ${dist} directory trees -->
-        <delete dir="${maven.build.dir}"/>
+        <delete dir="${maven.build.dir}" excludes="${svn.dir}"/>
         <delete dir="${dist}"/>
     </target>
 
